@@ -9,16 +9,56 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Chart.js and jsPDF -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
+    <!-- Login Overlay -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <div class="logo-icon" style="margin: 0 auto 20px;">🚌</div>
+            <h2>Admin Login</h2>
+            <div class="input-group">
+                <label for="login-user">Username</label>
+                <input type="text" id="login-user" placeholder="Enter username">
+            </div>
+            <div class="input-group">
+                <label for="login-pass">Password</label>
+                <input type="password" id="login-pass" placeholder="Enter password">
+            </div>
+            <button class="login-btn" onclick="handleLogin()">Sign In</button>
+            <p id="login-error" class="error-msg">Invalid username or password</p>
+        </div>
+    </div>
+
+    <!-- Target Edit Modal -->
+    <div id="target-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3>Edit Monthly Target</h3>
+            <div class="input-group" style="margin-top: 15px;">
+                <label>New Target Amount (₱)</label>
+                <input type="number" id="new-target-input">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-small btn-primary" onclick="saveNewTarget()">Save Changes</button>
+                <button class="btn-small btn-secondary" onclick="closeTargetModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div class="glass-container">
         <header>
             <div class="logo-section">
                 <div class="logo-icon">🚌</div>
                 <h1>BusMobticket <span>Admin</span></h1>
             </div>
-            <div class="status-badge" id="connection-status">
-                <span class="dot"></span> Online
+            <div class="header-right">
+                <div class="status-badge" id="connection-status">
+                    <span class="dot"></span> Online
+                </div>
+                <button class="logout-link" onclick="handleLogout()">Logout</button>
             </div>
         </header>
 
@@ -55,10 +95,22 @@
                 </div>
             </section>
 
+            <!-- Chart Section -->
+            <section class="chart-section" id="analytics-section">
+                <div class="chart-header">
+                    <h3>Sales Analytics (Last 7 Days)</h3>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </section>
+
             <!-- Progress Section -->
             <section class="progress-section">
                 <div class="progress-header">
-                    <h3>Monthly Target Progress</h3>
+                    <h3>Monthly Target Progress
+                        <button class="edit-target-btn admin-only" onclick="openTargetModal()">Edit Target</button>
+                    </h3>
                     <span id="target-percentage">0%</span>
                 </div>
                 <div class="progress-bar-bg">
@@ -68,13 +120,16 @@
             </section>
 
             <!-- Table Section -->
-            <section class="table-section">
+            <section class="table-section admin-only">
                 <div class="table-header">
                     <h3>Recent Transactions</h3>
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="active">Active</button>
-                        <button class="filter-btn" data-filter="deleted">Deleted</button>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <button class="pdf-btn" onclick="downloadSalesReport()">PDF Report</button>
+                        <div class="filter-group">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="active">Active</button>
+                            <button class="filter-btn" data-filter="deleted">Deleted</button>
+                        </div>
                     </div>
                 </div>
                 <div class="table-wrapper">
