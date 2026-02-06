@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusMobticket | Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="glass-container">
+        <header>
+            <div class="logo-section">
+                <div class="logo-icon">🚌</div>
+                <h1>BusMobticket <span>Admin</span></h1>
+            </div>
+            <div class="status-badge" id="connection-status">
+                <span class="dot"></span> Online
+            </div>
+        </header>
+
+        <main>
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="card-icon">₱</div>
+                    <div class="card-info">
+                        <h3>Today's Sales</h3>
+                        <p id="today-sales">₱0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card accent">
+                    <div class="card-icon">📊</div>
+                    <div class="card-info">
+                        <h3>Monthly Sales</h3>
+                        <p id="month-sales">₱0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="card-icon">🎟️</div>
+                    <div class="card-info">
+                        <h3>Total Tickets</h3>
+                        <p id="total-tickets">0</p>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="card-icon">🗑️</div>
+                    <div class="card-info">
+                        <h3>Deleted</h3>
+                        <p id="deleted-tickets">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section">
+                <div class="progress-header">
+                    <h3>Monthly Target Progress</h3>
+                    <span id="target-percentage">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="target-text" id="target-status">₱0.00 / ₱100,000</p>
+            </section>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h3>Recent Transactions</h3>
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="deleted">Deleted</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Passenger</th>
+                                <th>Route</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticket-table-body">
+                            <!-- Data will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
